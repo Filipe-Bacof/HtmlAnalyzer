@@ -3,9 +3,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
 public class HtmlAnalyzer {
     public static void main(String[] args) {
@@ -16,7 +16,6 @@ public class HtmlAnalyzer {
 
         try {
             String html = getHtml(args[0]);
-            System.out.println(html);
             String deepestTag = findDeepestTag(html);
             System.out.println(deepestTag);
         } catch (IOException e) {
@@ -32,46 +31,37 @@ public class HtmlAnalyzer {
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
-            sb.append(line.trim());
+            sb.append(line + "\n");
         }
         reader.close();
         return sb.toString();
     }
 
     private static String findDeepestTag(String html) throws MalformedHtmlException {
+        List<String> htmlLines = Arrays.asList(html.split("\n"));
         int maxDepth = -1;
         String deepestTag = "";
         Deque<String> stack = new ArrayDeque<>();
-        Matcher matcher = Pattern.compile("<([a-zA-Z]+)>.*?</\\1>|<([a-zA-Z]+)>[^<]*|[^<>]+").matcher(html);
-        String currentTag = "";
-        while (matcher.find()) {
-            String match = matcher.group();
-            if (match.startsWith("<")) {
-                if (isClosingTag(match)) {
+        for (String htmlLine : htmlLines) {
+            if (htmlLine.trim().startsWith("<")) {
+                if (isClosingTag(htmlLine)) {
                     if (stack.isEmpty()) {
                         throw new MalformedHtmlException();
                     }
-                    Deque<String> stackCopy = new ArrayDeque<>(stack);
-                    String openTag = stackCopy.pop();
-                    if (!tagMatches(openTag, match)) {
+                    String openTag = stack.pop();
+                    if (!tagMatches(openTag, htmlLine)) {
                         throw new MalformedHtmlException();
                     }
-                    currentTag = openTag;
                 } else {
-                    stack.push(match);
-                    int depth = stack.size();
-                    if (depth > maxDepth) {
-                        deepestTag = match;
-                        maxDepth = depth;
-                    }
-                    currentTag = match;
+                    stack.push(htmlLine);
                 }
             } else {
-                String text = extractText(match);
+                String text = htmlLine;
                 if (text != null && !stack.isEmpty()) {
                     int depth = stack.size();
                     if (depth > maxDepth) {
-                        deepestTag = currentTag;
+
+                        deepestTag = text;
                         maxDepth = depth;
                     }
                 }
@@ -83,26 +73,16 @@ public class HtmlAnalyzer {
         if (maxDepth == -1) {
             throw new MalformedHtmlException();
         }
-        return deepestTag;
+        return deepestTag.trim();
     }
 
     private static boolean isClosingTag(String tag) {
-        return tag.startsWith("</");
+        return tag.trim().startsWith("</");
     }
 
     private static boolean tagMatches(String openTag, String closeTag) {
-        System.out.println(openTag);
-        System.out.println(closeTag);
         return openTag.substring(1).replaceAll("[^a-zA-Z0-9]+", "")
                 .equals(closeTag.substring(2, closeTag.length() - 1).replaceAll("[^a-zA-Z0-9]+", ""));
-    }
-
-    private static String extractText(String line) {
-        String text = line.trim();
-        if (text.isEmpty()) {
-            return null;
-        }
-        return text;
     }
 
     private static class MalformedHtmlException extends Exception {
