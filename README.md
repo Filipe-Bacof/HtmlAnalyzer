@@ -1,17 +1,43 @@
 EASTER_EGG_URLS
 
-# Filipe Bacof - Axur HtmlAnalyzer
+# Filipe Lino de Souza Bacof
 
-## Ao compilar o programa com os exemplos disponibilizados esses foram os resultados:
+## Axur Software Development Intern: HtmlAnalyzer
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example1.html <br> This is the title.
+### Como Compilar
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example2.html <br> This is in level 4. Correct result.
+Para compilar basta rodar no terminal o comando abaixo: <br />
+`$ javac HtmlAnalyzer.java`
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example3.html <br> malformed HTML
+### Como Executar o Programa
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example4.html <br> malformed HTML
+Para executar o programa é necessário informar a URL conforme o comando abaixo: <br />
+`$ java HtmlAnalyzer inserir-url-aqui`
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example5.html <br> malformed HTML
+### Exemplos Disponibilizados:
 
-> $ java HtmlAnalyzer http://hiring.axreng.com/internship/example6.html <br> Easter egg | Este não é só mais um exemplo
+No PDF do teste técnico estava demonstrando o exemplo 1, porém ao modificar o URL percebi que haviam mais exemplos; <br/>
+Abaixo listei os links que utilizei para testar:
+
+1. http://hiring.axreng.com/internship/example1.html
+2. http://hiring.axreng.com/internship/example2.html
+3. http://hiring.axreng.com/internship/example3.html
+4. http://hiring.axreng.com/internship/example4.html
+5. http://hiring.axreng.com/internship/example5.html
+6. http://hiring.axreng.com/internship/example6.html
+
+### Casos de Teste:
+
+Com os HTMLs mencionados acima, efetuei os testes para verificar se o programa atendia aos requisitos funcionais e técnicos, listei o retorno do terminal para cada um dos testes:
+
+> **Example1.html** <br> retorno: `This is the title.`
+
+> **Example2.html** <br> retorno: `This is in level 4. Correct result.`
+
+> **Example3.html** <br> retorno: `malformed HTML`
+
+> **Example4.html** <br> retorno: `malformed HTML`
+
+> **Example5.html** <br> retorno: `malformed HTML`
+
+> **Example6.html** <br> retorno: `Easter egg | Este não é só mais um exemplo`
