@@ -1,8 +1,6 @@
-EASTER_EGG_URLS
-
 # Filipe Lino de Souza Bacof
 
-## Axur Software Development Intern: HtmlAnalyzer
+## Java Program: HtmlAnalyzer
 
 ### Como Compilar
 
